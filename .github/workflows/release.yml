@@ -56,6 +56,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+      checks: read
     secrets: inherit
 
   oxlint:
@@ -78,13 +79,13 @@ jobs:
       tag: ${{ steps.release.outputs.tag }}
       skipped: ${{ steps.release.outputs.skipped }}
     steps:
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         id: get-github-app-token
         with:
           app-id: ${{ secrets.ACCEPT_TO_SHIP_BOT_APP_ID }}
           private-key: ${{ secrets.ACCEPT_TO_SHIP_BOT_APP_PRIVATE_KEY }}
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: 'main'
           fetch-depth: 0
@@ -93,7 +94,7 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           check-latest: true
@@ -120,12 +121,12 @@ jobs:
       contents: read
       id-token: write # Required for OIDC trusted publishing with npm
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: ${{ !inputs.dry-run }}
         with:
           ref: ${{ needs.release.outputs.tag }}
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: ${{ inputs.dry-run }}
         with:
           ref: ${{ github.ref_name || github.ref }}
@@ -133,7 +134,7 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           check-latest: true

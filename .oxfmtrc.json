@@ -8,8 +8,10 @@
   "tabWidth": 2,
   "trailingComma": "all",
   "printWidth": 80,
-  "sortPackageJson": false,
-  "ignorePatterns": ["dist/", "bundle/"],
+  "sortPackageJson": {
+    "sortScripts": true
+  },
+  "ignorePatterns": ["dist/", "bundle/", "tests/javascript/"],
   "sortImports": {
     "groups": [
       "builtin",
